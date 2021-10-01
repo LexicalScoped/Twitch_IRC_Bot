@@ -1,0 +1,6 @@
+IRC_Server.py:
+    Build method to break up Prefix to collect only info we need (NICKNAME or SERVER)
+
+Logger.py:
+    Build file logging setup to record basic chat in rotating log.
+    Build file logging for recording errors to static error log
