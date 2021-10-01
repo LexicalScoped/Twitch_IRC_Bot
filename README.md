@@ -11,6 +11,7 @@ This is a bot underdevelopment to provide chat modding capabilities, as well as 
 
 * 0.1
     * Initial [commit](https://github.com/LexicalScoped/Twitch_IRC_Bot/commit/8a12205c9c8879d7ac65bbef2f1636ae5c08b562)
+    * Git Commits [Page](https://github.com/LexicalScoped/Twitch_IRC_Bot/commits/master)
 
 ## Getting Started
 
