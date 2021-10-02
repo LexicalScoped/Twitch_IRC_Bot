@@ -14,7 +14,7 @@ class Bot:
 
     def Handle_Msg(self, Message):
         if Message.prefix != " ":
-            Log(f'<<< Pref: {Message.prefix} - CMD: {Message.command} - CMD_Args: {Message.args} - Text: {Message.text}')
+            Log(f'<<< Pref: {Message.prefix} - User: {Message.user} - CMD: {Message.command} - CMD_Args: {Message.args} - Text: {Message.text}')
             strings = Message.text.split(" ")
             if strings[0] == "!so":
                 self.Shout_Out(Message.args, strings[1])
