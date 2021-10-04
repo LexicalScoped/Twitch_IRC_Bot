@@ -20,7 +20,7 @@ class IRC_Server:
             self.Join(chan)
 
     def send_cmd(self, cmd):
-        if 'PASS' not in cmd and 'PONG' not in cmd:
+        if 'PASS' not in cmd:
             Log(f'>>> {cmd}')
         self.connection.send((cmd + '\r\n').encode())
 
@@ -34,36 +34,30 @@ class IRC_Server:
         self.send_cmd(f'PONG {PING_source}')
 
     def Parse_Prefix(self, prefix):
-        local = f'{cfg.NICKNAME.lower()}.{cfg.SERVER_ALIAS}'
-        user = " "
         if "!" in prefix:
-            user = prefix.split("!")[0]
-        elif prefix == cfg.SERVER_ALIAS:
-            user = prefix
-        elif prefix == local:
-            user = f'{cfg.NICKNAME.lower()}'
-        return user
+            return prefix.split("!")[0]
+        else:
+            return prefix
 
     def Parse_Msg(self, received_data):
         prefix = user = command = args = text = " "
-        if len(received_data) == 0:
-            return Msg(prefix, user, command, args, text)
-        split_data = received_data.split(" ")    
-        if split_data[0].startswith(":"):
-            prefix = split_data[0][1:]
+        split_data = received_data
+        if received_data.startswith(":"):
+            split_data = received_data.split(" ", 2)
+            prefix = split_data.pop(0)[1:]
             user = self.Parse_Prefix(prefix)
-            command = split_data[1]
-            merge_data = " ".join(split_data[2:])
-            if merge_data.startswith(":"):
-                text = merge_data.strip()
-            else:
-                split_data = merge_data.split(":",1)
-                args = split_data[0].strip()
-                if len(split_data) > 1 :
-                    text = split_data[1].strip()
-        elif not split_data[0].startswith(":"):
-            command = split_data[0]
-            args = split_data[1]
+        else:
+            split_data = received_data.split(" ", 1)
+        command = split_data.pop(0)
+
+        if not split_data[0].startswith(":"):
+            split_data = split_data[0].split(":",1)
+            args = split_data[0]
+            if len(split_data) > 1 :
+                text = split_data[1]
+        else:
+            text = split_data[0][1:]
+
         return Msg(prefix, user, command, args, text)
     
     def inbound(self):
