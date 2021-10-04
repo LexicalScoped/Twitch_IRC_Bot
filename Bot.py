@@ -1,4 +1,5 @@
 import random
+from cfg import MODS
 from Logger import Log
 from IRC_Server import IRC_Server
 
@@ -9,7 +10,7 @@ class Bot:
         self.Read_Inbound()
 
     def Shout_Out(self, Message):
-        if Message.user.lower() == "veggiezombay" or Message.user.lower() == "lexicalscoped":
+        if Message.user.lower() in MODS:
             strings = Message.text.split(" ")
             target = strings[1]
             if strings[1].startswith("@"):

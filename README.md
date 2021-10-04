@@ -32,6 +32,7 @@ PORT = 6667
 NICKNAME = "<username from account of oauth token"
 CHANNELS = { "channel", "or channels", "you want the bot to join" }
 SERVER_ALIAS = "tmi.twitch.tv"
+MODS = { "username", "username2" }
 ```
 
 
