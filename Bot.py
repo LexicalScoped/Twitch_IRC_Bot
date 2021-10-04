@@ -68,6 +68,10 @@ class Bot:
                     Count = int(dice[0])
                 if dice[1].isnumeric():
                     Die = int(dice[1])
+        if Die == 0:
+            Die = False
+        if Count == 0:
+            Count = False
         return Count, Die
             
     def Roll(self, Message):
@@ -78,11 +82,17 @@ class Bot:
         if len(split_msg) > 1:
             Count, Die = self.Validate_Dice(split_msg[1:])
         if Count and Die:
+            Die += 1
             if Count == 1:
-                rolledDice = [random.randrange(1, int(Die))]
+                rolledDice = [random.randrange(int(Count), int(Die))]
             elif Count > 1:
                 rolledDice = [random.randrange(1, int(Die)) for i in range(int(Count))]
-            resultstring = f"Rolling {Count}d{Die} Rolled: " +" " .join(map(str, rolledDice)) + " Total: " + str(sum(rolledDice))
+            DiceDice = " ".join(map(str, rolledDice))
+            resultstring = f"Rolling {Count}d{Die-1} Rolled: " + " ".join(map(str, rolledDice)) + " Total: " + str(sum(rolledDice))
+            if len(resultstring) > 500:
+                overage = len(resultstring) - 500
+                DiceDice = DiceDice[:-overage]
+                resultstring = f"Rolling {Count}d{Die-1} Rolled: " + DiceDice + " Total: " + str(sum(rolledDice))
             self.irc_server.Msg_Chan(Message.args, resultstring)
         else:
             self.irc_server.Msg_Chan(Message.args, "No Dice or invalid Dice in roller, please use NumberDNumber, DNumber or Number format ( examples: 2d6 d6 or 6 )")
