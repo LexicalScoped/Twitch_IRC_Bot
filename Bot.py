@@ -2,22 +2,26 @@ import random
 from Logger import Log
 from IRC_Server import IRC_Server
 
+
 class Bot:
     def __init__(self):
         self.irc_server = IRC_Server()
         self.Read_Inbound()
 
     def Shout_Out(self, Message):
-        strings = Message.text.split(" ")
-        target = strings[1]
-        if strings[1].startswith("@"):
-            target = strings[1][1:]
-        self.irc_server.Msg_Chan(Message.args, f'Shout out to {target} - lets show some love and go check out their content at https://twitch.tv/{target}')
+        if Message.user.lower() == "veggiezombay" or Message.user.lower() == "lexicalscoped":
+            strings = Message.text.split(" ")
+            target = strings[1]
+            if strings[1].startswith("@"):
+                target = strings[1][1:]
+            self.irc_server.Msg_Chan(Message.args, f'Shout out to {target} - lets show some love and go check out their content at https://twitch.tv/{target}')
+
     def Coup(self, Message):
         if Message.user == "veggiezombay":
             self.irc_server.Msg_Chan(Message.args, "Coup meeting, 15 minutes, fresh cookies.")
         else:
             self.irc_server.Msg_Chan(Message.args, "Don't let our overlord, veggiezombay, hear you talk like that")
+
     def EightBall(self, Message):
         answers = [
             "As I see it, yes.",
@@ -48,6 +52,8 @@ class Bot:
     def Validate_Dice(self, dice):
         Count = False
         Die = False
+        dice = "".join(dice)
+        dice = dice.strip()
         if dice.isnumeric():
             Count = 1
             Die = int(dice)
@@ -56,26 +62,27 @@ class Bot:
             if dice[1:].isnumeric():
                 Die = int(dice[1:])
         elif "d" in dice.lower():
-            dice = dice.split("d")
-            if dice[0].isnumeric():
-                Count = int(dice[0])
-            if dice[1].isnumeric():
-                Die = int(dice[1])
+            dice = dice.lower().split("d")
+            if len(dice) > 1:
+                if dice[0].isnumeric():
+                    Count = int(dice[0])
+                if dice[1].isnumeric():
+                    Die = int(dice[1])
         return Count, Die
             
-
     def Roll(self, Message):
         rolledDice = []
         Count = 0
         Die = 0
-        if len(Message.text.split(" ")) > 1:
-            Count, Die = self.Validate_Dice(Message.text.split(" ")[1])
+        split_msg = Message.text.split(" ")
+        if len(split_msg) > 1:
+            Count, Die = self.Validate_Dice(split_msg[1:])
         if Count and Die:
             if Count == 1:
                 rolledDice = [random.randrange(1, int(Die))]
             elif Count > 1:
                 rolledDice = [random.randrange(1, int(Die)) for i in range(int(Count))]
-            resultstring = "Rolling "+ str(Message.text).split()[1] +" Rolled: " +" " .join(map(str, rolledDice)) + " Total: " + str(sum(rolledDice))
+            resultstring = f"Rolling {Count}d{Die} Rolled: " +" " .join(map(str, rolledDice)) + " Total: " + str(sum(rolledDice))
             self.irc_server.Msg_Chan(Message.args, resultstring)
         else:
             self.irc_server.Msg_Chan(Message.args, "No Dice or invalid Dice in roller, please use NumberDNumber, DNumber or Number format ( examples: 2d6 d6 or 6 )")
