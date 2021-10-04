@@ -1,3 +1,2 @@
-Logger.py:
-    Build file logging setup to record basic chat in rotating log.
-    Build file logging for recording errors to static error log
+Logger.py
+    Build Log Rotation/clearing features to keep logs from growing too large.

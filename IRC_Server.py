@@ -21,7 +21,7 @@ class IRC_Server:
 
     def send_cmd(self, cmd):
         if 'PASS' not in cmd:
-            Log(f'>>> {cmd}')
+            Log(self.Parse_Msg(cmd))
         self.connection.send((cmd + '\r\n').encode())
 
     def Join(self, channel):
@@ -49,15 +49,13 @@ class IRC_Server:
         else:
             split_data = received_data.split(" ", 1)
         command = split_data.pop(0)
-
         if not split_data[0].startswith(":"):
             split_data = split_data[0].split(":",1)
-            args = split_data[0]
+            args = split_data[0].strip()
             if len(split_data) > 1 :
                 text = split_data[1]
         else:
             text = split_data[0][1:]
-
         return Msg(prefix, user, command, args, text)
     
     def inbound(self):
