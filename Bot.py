@@ -51,11 +51,11 @@ class Bot:
         if dice.isnumeric():
             Count = 1
             Die = int(dice)
-        elif dice.startswith("d"):
+        elif dice.lower().startswith("d"):
             Count = 1
             if dice[1:].isnumeric():
                 Die = int(dice[1:])
-        elif "d" in dice:
+        elif "d" in dice.lower():
             dice = dice.split("d")
             if dice[0].isnumeric():
                 Count = int(dice[0])
