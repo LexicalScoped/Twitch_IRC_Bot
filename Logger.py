@@ -1,4 +1,5 @@
 import time
+from Authority import Authority
 
 def Write_Line(filepath, line):
     file = open(filepath, 'a')
@@ -17,8 +18,8 @@ def CLI_Log(line):
 
 def Log(msg):
     timestamp = time.asctime(time.localtime(time.time()))
-    CLI_Log(f'<<< ({timestamp}) Pref: {msg.prefix} - User: {msg.user} - CMD: {msg.command} - CMD_Args: {msg.args} - Text: {msg.text}')
+    CLI_Log(f'<<< ({timestamp}) Authority: {Authority(msg.authority).name} Pref: {msg.prefix} - User: {msg.user} - CMD: {msg.command} - CMD_Args: {msg.args} - Text: {msg.text}')
     if msg.args.startswith("#") and msg.command == "PRIVMSG":
-        Channel_Log(f'{msg.args}', f'{timestamp}: <{msg.user}> {msg.text}')
+        Channel_Log(f'{msg.args}', f'{timestamp}: Authority: {Authority(msg.authority).name} <{msg.user}> {msg.text}')
     else:
-        Server_Log(f'<<< {timestamp}: Pref: {msg.prefix} - CMD: {msg.command} - CMD_Args: {msg.args} - Text: {msg.text}')
+        Server_Log(f'<<< {timestamp}: Authority: {Authority(msg.authority).name} Pref: {msg.prefix} - CMD: {msg.command} - CMD_Args: {msg.args} - Text: {msg.text}')

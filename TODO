@@ -1,2 +1,10 @@
+IRC_Server.py
+    Add tags/badges parsing (done)
+
+New File: Authority.py
+    setting up authority enum to handle user levels from chat.
+
 Logger.py
     Build Log Rotation/clearing features to keep logs from growing too large.
+    adjusted logging to use Authority Enum and Tags
+

@@ -1,14 +1,17 @@
 import cfg
 import socket
+from Authority import Authority
 from Logger import Log
 
 class Msg:
-    def __init__(self, prefix, user, command, args, text):
+    def __init__(self, tags, prefix, user, command, args, text, authority):
+        self.tags = tags
         self.prefix = prefix
         self.user = user
         self.command = command
         self.args = args
         self.text = text
+        self.authority = authority
 
 class IRC_Server:
     def __init__(self):
@@ -16,6 +19,8 @@ class IRC_Server:
         self.connection.connect((cfg.SERVER, cfg.PORT))
         self.send_cmd(f'PASS {cfg.TOKEN}')
         self.send_cmd(f'NICK {cfg.NICKNAME}')
+        self.send_cmd(f'CAP REQ :twitch.tv/tags')
+        self.send_cmd(f'CAP REQ :twitch.tv/commands')
         for chan in cfg.CHANNELS:
             self.Join(chan)
 
@@ -39,10 +44,19 @@ class IRC_Server:
         else:
             return prefix
 
+    def Parse_Tags(self, tags):
+        badges = tags.split(";")[1]
+        return badges
+
     def Parse_Msg(self, received_data, localuser=False):
-        prefix = user = command = args = text = " "
+        tags = prefix = user = command = args = text = authority = " "
         split_data = received_data
-        if received_data.startswith(":"):
+        if received_data.startswith("@"):
+            split_data = received_data.split(" ", 3)
+            tags = self.Parse_Tags(split_data.pop(0))
+            prefix = split_data.pop(0)[1:]
+            user = self.Parse_Prefix(prefix)
+        elif received_data.startswith(":"):
             split_data = received_data.split(" ", 2)
             prefix = split_data.pop(0)[1:]
             user = self.Parse_Prefix(prefix)
@@ -58,7 +72,8 @@ class IRC_Server:
                 text = split_data[1]
         else:
             text = split_data[0][1:]
-        return Msg(prefix, user, command, args, text)
+        authority = Authority.Get_Auth(tags)
+        return Msg(tags, prefix, user, command, args, text, authority)
     
     def inbound(self):
         while True:
