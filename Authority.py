@@ -6,8 +6,8 @@ class Authority(Enum):
     VIP = 2
     MODERATOR = 3
     HOST = 4
+    
     @staticmethod 
-
     def Get_Auth(tags):
         if "broadcaster" in tags:
             return Authority['HOST'].value

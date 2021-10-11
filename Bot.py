@@ -10,7 +10,6 @@ class Bot:
         self.Read_Inbound()
 
     def Shout_Out(self, Message):
-        # if Message.user.lower() in MODS:
         if Message.authority >= Authority['MODERATOR'].value:
             strings = Message.text.split(" ")
             target = strings[1]
