@@ -1,10 +1,7 @@
 Logger.py
     Build Log Rotation/clearing features to keep logs from growing too large.
 
-
 Add to Commit:
 Bot.py
-    Removed Commented config file Mod list check.
-
-Authority.py
-    Edit where the @staticmethod decorator was located.
+    Removed import of MODS list from Cfg
+    Add Command: discord

@@ -1,5 +1,4 @@
 import random
-from cfg import MODS
 from Logger import Log
 from IRC_Server import IRC_Server, Authority
 
@@ -98,6 +97,9 @@ class Bot:
         else:
             self.irc_server.Msg_Chan(Message.args, "No Dice or invalid Dice in roller, please use NumberDNumber, DNumber or Number format ( examples: 2d6 d6 or 6 )")
 
+    def Discord(self, Message):
+        self.irc_server.Msg_Chan(Message.args, "My discord can be found here:  https://discord.gg/GR8SSMm")
+
 
     def Handle_Msg(self, Message):
         if Message.prefix != " ":
@@ -111,6 +113,8 @@ class Bot:
                     self.EightBall(Message)
                 if Message.text.lower().startswith("!roll"):
                     self.Roll(Message)
+                if Message.text.lower().startswith("!discord"):
+                    self.Discord(Message)
         if Message.command == "PING":
             Log(Message)
             self.irc_server.Pong(Message.text)

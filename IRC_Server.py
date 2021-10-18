@@ -45,8 +45,10 @@ class IRC_Server:
             return prefix
 
     def Parse_Tags(self, tags):
-        badges = tags.split(";")[1]
-        return badges
+        if len(tags.split(";")) >= 2:
+            return tags.split(";")[1]
+        else:
+            return tags
 
     def Parse_Msg(self, received_data, localuser=False):
         tags = prefix = user = command = args = text = authority = " "
