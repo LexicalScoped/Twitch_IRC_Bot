@@ -25,7 +25,7 @@ class IRC_Server:
             self.Join(chan)
 
     def send_cmd(self, cmd):
-        if 'PASS' not in cmd and 'PING' not in cmd and 'PONG' not in cmd:
+        if 'PASS' not in cmd:
             Log(self.Parse_Msg(cmd, True))
         self.connection.send((cmd + '\r\n').encode())
 

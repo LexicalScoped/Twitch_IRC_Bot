@@ -21,5 +21,7 @@ def Log(msg):
     #CLI_Log(f'<<< ({timestamp}) Authority: {Authority(msg.authority).name} Pref: {msg.prefix} - User: {msg.user} - CMD: {msg.command} - CMD_Args: {msg.args} - Text: {msg.text}')
     if msg.args.startswith("#") and msg.command == "PRIVMSG":
         Channel_Log(f'{msg.args}', f'{timestamp}: Authority: {Authority(msg.authority).name} <{msg.user}> {msg.text}')
+    elif 'PING' not in msg.command and 'PONG' not in msg.command:
+        return
     else:
         Server_Log(f'<<< {timestamp}: Authority: {Authority(msg.authority).name} Pref: {msg.prefix} - CMD: {msg.command} - CMD_Args: {msg.args} - Text: {msg.text}')
