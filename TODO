@@ -1,7 +1,16 @@
+Add SQLalchemy integration
+    1. for Arcane Whispers
+        1a. Channel Redeem for potions, items and more.
+        1b. Call for stats and inventory to show off in chat.
+        1c. Titles
+        
+    2. for add command options
+        2a. Timer commands
+        2b. Counter commands
+        2c. Chatter commands
+        *. Ensure Authority options of MOD/VIP/SUB/Chatter
+
+
 Logger.py
     Build Log Rotation/clearing features to keep logs from growing too large.
 
-Add to Commit:
-Bot.py
-    Removed import of MODS list from Cfg
-    Add Command: discord
