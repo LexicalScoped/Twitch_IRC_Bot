@@ -98,8 +98,10 @@ class Bot:
             self.irc_server.Msg_Chan(Message.args, "No Dice or invalid Dice in roller, please use NumberDNumber, DNumber or Number format ( examples: 2d6 d6 or 6 )")
 
     def Discord(self, Message):
-        self.irc_server.Msg_Chan(Message.args, "My discord can be found here:  https://discord.gg/GR8SSMm")
+        self.irc_server.Msg_Chan(Message.args, "My discord can be found here: https://discord.gg/GR8SSMm")
 
+    def GitHub(self, Message): 
+        self.irc_server.Msg_Chan(Message.args, "My github can be found here: https://github.com/lexicalscoped")
 
     def Handle_Msg(self, Message):
         if Message.prefix != " ":
@@ -114,6 +116,8 @@ class Bot:
                 if Message.text.lower().startswith("!roll"):
                     self.Roll(Message)
                 if Message.text.lower().startswith("!discord"):
+                    self.Discord(Message)
+                if Message.text.lower().startswith("!github"):
                     self.Discord(Message)
         if Message.command == "PING":
             Log(Message)
