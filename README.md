@@ -29,8 +29,8 @@ Built on:
 TOKEN = "oauth:<secret key from twitch>"
 SERVER = "irc.chat.twitch.tv"
 PORT = 6667
-NICKNAME = "<username from account of oauth token"
-CHANNELS = { "channel", "or channels", "you want the bot to join" }
+NICKNAME = "<username from account of oauth token>"
+CHANNELS = { <list of channels to join> }
 SERVER_ALIAS = "tmi.twitch.tv"
 MODS = { "username", "username2" }
 ```
